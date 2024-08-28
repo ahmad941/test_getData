@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_getdata/service/api_service.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,16 +12,35 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ApiService apiService = ApiService();
   Future<Map<String, dynamic>?>? _assetData;
+  String _scanResult = '';
 
-  Future<void> _loginAndFetchData() async {
+  Future<void> _loginAndFetchData(String tag) async {
     String? token = await apiService.login('operational-melia@gmail.com', 'admin');
     if (token != null) {
-      // Token berhasil didapatkan, ambil data asset inquiry
       setState(() {
-        _assetData = apiService.getAssetInquiry('E28069952000501172577268');
+        _assetData = apiService.getAssetInquiry(tag);
       });
     } else {
       print('Failed to log in');
+    }
+  }
+
+  Future<void> _scanBarcode() async {
+    try {
+      String scanResult = await FlutterBarcodeScanner.scanBarcode(
+        '#FF0000', // Warna garis pemindai
+        'Cancel',  // Teks untuk tombol pembatalan
+        true,      // Menampilkan tombol untuk membuka lampu
+        ScanMode.BARCODE,
+      );
+      if (scanResult != '-1') {
+        setState(() {
+          _scanResult = scanResult;
+          _loginAndFetchData(scanResult);
+        });
+      }
+    } catch (e) {
+      print('Error during barcode scan: $e');
     }
   }
 
@@ -34,9 +55,11 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: _loginAndFetchData,
-              child: Text('Login & Get Data'),
+              onPressed: _scanBarcode,
+              child: Text('Scan Barcode'),
             ),
+            SizedBox(height: 20),
+            Text('Scan Result: $_scanResult'),
             SizedBox(height: 20),
             FutureBuilder<Map<String, dynamic>?>(
               future: _assetData,
