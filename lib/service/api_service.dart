@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class ApiService {
   final String baseUrl = 'https://recom-api.xacloud.com/api';
 
@@ -47,7 +48,7 @@ class ApiService {
     }
   }
 
-  Future<void> getAssetInquiry(String tag) async {
+  Future<Map<String, dynamic>?> getAssetInquiry(String tag) async {
     print('Fetching asset inquiry for tag: $tag');
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -55,7 +56,7 @@ class ApiService {
 
     if (token == null) {
       print('No token found');
-      return;
+      return null;
     }
 
     final String assetInquiryUrl = '$baseUrl/1.0/asset-inquiry/$tag';
@@ -74,12 +75,14 @@ class ApiService {
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
-        print('Asset Inquiry Data: $responseData');
+        return responseData;
       } else {
         print('Failed to get asset inquiry with status: ${response.statusCode}');
+        return null;
       }
     } catch (e) {
       print('Error during asset inquiry: $e');
+      return null;
     }
   }
 
