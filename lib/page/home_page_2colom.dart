@@ -64,9 +64,9 @@ class _HomePageState extends State<HomePage> {
                 onPressed: _scanBarcode,
                 child: Text('Scan Barcode'),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10), // Lebih rapat
               Text('Scan Result: $_scanResult'),
-              SizedBox(height: 20),
+              SizedBox(height: 10), // Lebih rapat
               FutureBuilder<Map<String, dynamic>?>(
                 future: _assetData,
                 builder: (context, snapshot) {
@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                           _buildDataTile('Sub-Sub Location Name', data['sub_sub_location_name'] ?? 'N/A'),
                           _buildDataTile('Tag', data['tag'] ?? 'N/A'),
                           _buildDataTile('Color Code', data['color_code'] ?? 'N/A'),
-                          SizedBox(height: 20),
+                          SizedBox(height: 10), // Lebih rapat
                           FutureBuilder<String?>(
                             future: _assetImage,
                             builder: (context, imageSnapshot) {
@@ -101,8 +101,8 @@ class _HomePageState extends State<HomePage> {
                                 return Text('Error: ${imageSnapshot.error}');
                               } else if (imageSnapshot.hasData && imageSnapshot.data != null) {
                                 return Container(
-                                  width: 300,
-                                  height: 300,
+                                  width: 200, // Lebih kecil
+                                  height: 200, // Lebih kecil
                                   child: Image.network(
                                     imageSnapshot.data!,
                                     fit: BoxFit.cover,
@@ -131,27 +131,30 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDataTile(String title, String subtitle) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9, // Lebar konten 90% dari lebar layar
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-            title: Text(
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 2.0), // Lebih rapat
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 2,
+            child: Text(
               title,
-              overflow: TextOverflow.ellipsis, // Memotong teks jika terlalu panjang
-              maxLines: 1, // Membatasi teks menjadi satu baris
-            ),
-            subtitle: Text(
-              subtitle,
-              overflow: TextOverflow.ellipsis, // Memotong teks jika terlalu panjang
-              maxLines: 1, // Membatasi teks menjadi satu baris
+              style: TextStyle(fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
           ),
-        ),
-        //Divider(height: 1, thickness: 1), // Menambahkan garis pemisah
-      ],
+          Expanded(
+            flex: 3,
+            child: Text(
+              subtitle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

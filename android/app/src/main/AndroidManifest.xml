@@ -6,6 +6,7 @@
     <!-- Fitur kamera yang disarankan -->
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="test_getdata"
