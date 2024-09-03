@@ -79,18 +79,7 @@ class _HomePageState extends State<HomePage> {
                     if (data != null) {
                       return Column(
                         children: [
-                          _buildDataTile('Asset ID', data['asset_id']?.toString() ?? 'N/A'),
-                          _buildDataTile('Asset Name', data['asset_name'] ?? 'N/A'),
-                          _buildDataTile('Asset Code', data['asset_code'] ?? 'N/A'),
-                          _buildDataTile('Serial Number', data['serial_number'] ?? 'N/A'),
-                          _buildDataTile('Item Number', data['item_number'] ?? 'N/A'),
-                          _buildDataTile('PIC Name', data['pic_name'] ?? 'N/A'),
-                          _buildDataTile('Item Status', data['item_status'] ?? 'N/A'),
-                          _buildDataTile('Location Name', data['location_name'] ?? 'N/A'),
-                          _buildDataTile('Sub Location Name', data['sub_location_name'] ?? 'N/A'),
-                          _buildDataTile('Sub-Sub Location Name', data['sub_sub_location_name'] ?? 'N/A'),
-                          _buildDataTile('Tag', data['tag'] ?? 'N/A'),
-                          _buildDataTile('Color Code', data['color_code'] ?? 'N/A'),
+
                           SizedBox(height: 20),
                           FutureBuilder<String?>(
                             future: _assetImage,
@@ -113,6 +102,19 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                           ),
+                          _buildDataTile('Asset ID', data['asset_id']?.toString() ?? 'N/A'),
+                          _buildDataTile('Asset Name', data['asset_name'] ?? 'N/A'),
+                          _buildDataTile('Asset Code', data['asset_code'] ?? 'N/A'),
+                          _buildDataTile('Serial Number', data['serial_number'] ?? 'N/A'),
+                          _buildDataTile('Item Number', data['item_number'] ?? 'N/A'),
+                          _buildDataTile('PIC Name', data['pic_name'] ?? 'N/A'),
+                          _buildDataTile('Item Status', data['item_status'] ?? 'N/A'),
+                          _buildDataTile('Location Name', data['location_name'] ?? 'N/A'),
+                          _buildDataTile('Sub Location Name', data['sub_location_name'] ?? 'N/A'),
+                          _buildDataTile('Sub-Sub Location Name', data['sub_sub_location_name'] ?? 'N/A'),
+                          _buildDataTile('Tag', data['tag'] ?? 'N/A'),
+                          _buildDataTile('Color Code', data['color_code'] ?? 'N/A'),
+
                         ],
                       );
                     } else {
